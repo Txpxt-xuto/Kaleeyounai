@@ -27,8 +27,9 @@ void Checkavailable_every_car(char *filename, int start, int end);
 void Recall(int Id,int start,int end);
 int Getvalueint(char *filename, int targetRow, int targetCol);
 void Deletecustomer(char *filename, char *fname, char *lname);
-
-
+int loadCSV(char *filename, char data[][MAX_COL][100], int *rows);
+void saveCSV(char *filename, char data[][MAX_COL][100], int rows);
+void deleteRow(char data[][MAX_COL][100], int *rows, int target);
 
 
 void Menu()
@@ -543,11 +544,8 @@ void Deletecustomer(char *filename, char *fname, char *lname)
         }
     }
 
-    if(foundRow == -1)
-    {
-        printf("Customer not found\n");
-        return 0;
-    }
+    if(foundRow == -1) printf("Customer not found\n");
+    
 
     // ดึงข้อมูลการจอง
     int carRow   = atoi(customers[foundRow][2]);
@@ -556,9 +554,6 @@ void Deletecustomer(char *filename, char *fname, char *lname)
 
     printf("\nBooking found:\n");
     printf("Car Row: %d\nStart: %d\nEnd: %d\n", carRow, startCol, endCol);
-
-    // คืนรถ
-    setRangeZeroArr(carRow, startCol, endCol);
 
     // ลบลูกค้า
     deleteRow(customers, &custRows, foundRow);
@@ -698,13 +693,8 @@ void saveCSV(char *filename, char data[][MAX_COL][100], int rows)
 
 void deleteRow(char data[][MAX_COL][100], int *rows, int target)
 {
-    for(int i=target;i<*rows-1;i++) for(int j=0;j<MAX_COL;j++) trcpy(data[i][j], data[i+1][j]);
+    for(int i=target;i<*rows-1;i++) for(int j=0;j<MAX_COL;j++) strcpy(data[i][j], data[i+1][j]);
     (*rows)--;
-}
-
-void setRangeZeroArr(int carRow, int startCol, int endCol) 
-{
-    for(int i=startCol;i<=endCol;i++) strcpy(cars[carRow][i], "0");
 }
 
 void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
