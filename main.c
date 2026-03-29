@@ -507,7 +507,7 @@ void Unbooking()
             {
                 int startCol = atoi(start), targetRow = atoi(price), endCol = atoi(end);
                 Deletecustomer("CUSTOMER.csv",searchF,searchL);
-                setRangeZero("CAR.csv",targetRow,startCol,endCol);
+                //setRangeZero("CAR.csv",targetRow,startCol,endCol);
                 found = 1;
                 break;
             }
@@ -521,12 +521,19 @@ void Unbooking()
 void Deletecustomer(char *filename, char *fname, char *lname)
 {
     FILE *fp = fopen(filename, "r");
-    FILE *temp = fopen("Temp.csv", "w");
+    FILE *temp = fopen("temp.csv", "w");
 
-    if(fp == NULL || temp == NULL)
+    if(fp == NULL)
     {
-        printf("File error\n");
-        return;
+        printf("Cannot open source file\n");
+        return 0;
+    }
+
+    if(temp == NULL)
+    {
+        printf("Cannot create temp file\n");
+        fclose(fp);
+        return 0;
     }
 
     char line[1000];
@@ -534,9 +541,8 @@ void Deletecustomer(char *filename, char *fname, char *lname)
 
     while(fgets(line, sizeof(line), fp))
     {
-
-        // header → copy ตรง ๆ
-        if(strncmp(line, "FirstName", 9) == 0)
+        // copy header
+        if(strncmp(line, "Name", 4) == 0)
         {
             fprintf(temp, "%s", line);
             continue;
@@ -544,29 +550,30 @@ void Deletecustomer(char *filename, char *fname, char *lname)
 
         char tempLine[1000];
         strcpy(tempLine, line);
+
         char *f = strtok(line, ",");
         char *l = strtok(NULL, ",");
 
         if(f && l)
         {
             l[strcspn(l, "\n")] = 0;
-            //  ถ้าตรง -> ไม่เขียน (ลบ)
+
             if(strcmp(f, fname) == 0 && strcmp(l, lname) == 0)
             {
                 deleted = 1;
                 continue;
             }
         }
-        // แถวอื่นเขียนตามปกติ
+
         fprintf(temp, "%s", tempLine);
     }
 
     fclose(fp);
     fclose(temp);
-    remove(filename);
-    rename("Temp.csv", filename);
 
-    if (deleted) printf("Customer deleted successfully!\n");
+    if(remove("CUSTOMER.csv") != 0) printf("Error deleting original file\n");
+    if(rename("temp.csv", "CUSTOMER.csv") != 0) printf("Error renaming file\n");
+    if(deleted)  printf("Customer deleted successfully!\n");
     else printf("Delete ERROR!!\n");
 }
 
@@ -617,7 +624,7 @@ void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
             }
             fprintf(temp, "\n");
         }
-        else 
+        else
         {
             fprintf(temp, "%s", line);
         } // แถวอื่น copy โง่ๆ
