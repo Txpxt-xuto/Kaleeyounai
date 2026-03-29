@@ -5,7 +5,6 @@
 #define MAX_COL 500
 
 char customers[MAX_ROW][MAX_COL][100];
-char cars[MAX_ROW][MAX_COL][100];
 
 void Menu();
 void Booking();
@@ -527,12 +526,47 @@ void Unbooking()
 
 void Deletecustomer(char *filename, char *fname, char *lname)
 {
-    FILE *fp = fopen(filename, "r");
-    
+    int custRows, carRows;
 
+    // โหลดไฟล์
+    loadCSV("CUSTOMER.csv", customers, &custRows);
+    int foundRow = -1;
 
+    // ค้นหาลูกค้า
+    for(int i = 1; i < custRows; i++)
+    { 
+        // ข้าม header
+        if(strcmp(customers[i][0], fname) == 0 && strcmp(customers[i][1], lname) == 0)
+        {
+            foundRow = i;
+            break;
+        }
+    }
 
+    if(foundRow == -1)
+    {
+        printf("Customer not found\n");
+        return 0;
+    }
 
+    // ดึงข้อมูลการจอง
+    int carRow   = atoi(customers[foundRow][2]);
+    int startCol = atoi(customers[foundRow][3]);
+    int endCol   = atoi(customers[foundRow][4]);
+
+    printf("\nBooking found:\n");
+    printf("Car Row: %d\nStart: %d\nEnd: %d\n", carRow, startCol, endCol);
+
+    // คืนรถ
+    setRangeZeroArr(carRow, startCol, endCol);
+
+    // ลบลูกค้า
+    deleteRow(customers, &custRows, foundRow);
+
+    // บันทึกไฟล์
+    saveCSV("CUSTOMER.csv", customers, custRows);
+    printf("\nCancel booking + delete success!\n");
+    return 0;
     /*FILE *fp = fopen(filename, "r");
     FILE *test = fopen("test.csv", "w");
 
@@ -625,12 +659,13 @@ int loadCSV(char *filename, char data[][MAX_COL][100], int *rows)
     char line[10000];
     int row = 0;
 
-    while (fgets(line, sizeof(line), fp)) {
+    while(fgets(line, sizeof(line), fp))
+    {
         int col = 0;
-
         char *token = strtok(line, ",");
 
-        while (token != NULL) {
+        while(token != NULL)
+        {
             token[strcspn(token, "\n")] = 0;
             strcpy(data[row][col], token);
 
@@ -659,6 +694,17 @@ void saveCSV(char *filename, char data[][MAX_COL][100], int rows)
         fprintf(fp, "\n");
     }
     fclose(fp);
+}
+
+void deleteRow(char data[][MAX_COL][100], int *rows, int target)
+{
+    for(int i=target;i<*rows-1;i++) for(int j=0;j<MAX_COL;j++) trcpy(data[i][j], data[i+1][j]);
+    (*rows)--;
+}
+
+void setRangeZeroArr(int carRow, int startCol, int endCol) 
+{
+    for(int i=startCol;i<=endCol;i++) strcpy(cars[carRow][i], "0");
 }
 
 void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
