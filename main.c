@@ -652,13 +652,12 @@ void saveCSV(char *filename, char data[][MAX_COL][100], int rows)
     {
         for(int j = 0; j < MAX_COL; j++)
         {
-            if (strlen(data[i][j]) == 0) break;
+            if(strlen(data[i][j]) == 0) break;
             fprintf(fp, "%s", data[i][j]);
-            if (strlen(data[i][j+1]) > 0) fprintf(fp, ",");
+            if(strlen(data[i][j+1]) > 0) fprintf(fp, ",");
         }
         fprintf(fp, "\n");
     }
-
     fclose(fp);
 }
 
