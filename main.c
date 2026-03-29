@@ -25,6 +25,9 @@ void Recall(int Id,int start,int end);
 int Getvalueint(char *filename, int targetRow, int targetCol);
 void Deletecustomer(char *filename, char *fname, char *lname);
 
+
+
+
 void Menu()
 {
     int i;
@@ -460,7 +463,7 @@ void Checkavailable_every_car(char *filename, int start, int end)
 
 
 //การ save การจองรถ ปัญหา-->  ไม่ save การยกเลิกจองของลูกค้า
-//setRangeZero เคลียร์ปัญหาแล้ว
+//setRangeZero เคลียร์ปัญหาแล้ว เหลือ Deletecustomer
 
 //เขียนการยกเลิกการจองให้ใช้ได้แบบเต็มระบบ
 void Unbooking()
