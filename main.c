@@ -36,6 +36,8 @@ int countDay(int dayOfYear,int i);
 
 
 
+
+
 void Menu()
 {
     int i;
@@ -470,10 +472,11 @@ void Checkavailable_every_car(char *filename, int start, int end)
 
 
 
-//การ save การจองรถ ปัญหา-->  ไม่ save การยกเลิกจองของลูกค้า
-//setRangeZero เคลียร์ปัญหาแล้ว เหลือ Deletecustomer
 
-//เขียนการยกเลิกการจองให้ใช้ได้แบบเต็มระบบ
+
+
+
+
 void Unbooking()
 {
     FILE *fp = fopen("CUSTOMER.csv", "r");
@@ -554,16 +557,16 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     char FName = customers[foundRow][0];
     char Lname = customers[foundRow][1];
     char Tel   = customers[foundRow][2];
-    int Email  = customers[foundRow][3];
+    char Email = customers[foundRow][3];
     int startCol = atoi(customers[foundRow][5]);
     int endCol   = atoi(customers[foundRow][6]);
 
     printf("\n             Booking found             \n");
     printf("****************************************\n");
-    printf("*   Firstname  :  %-20.s *\n",FName);
-    printf("*   Lastname   :  %-20.s *\n",Lname);
-    printf("*   Telephone  :  %-20.s *\n",Tel);
-    printf("*   Email User :  %-20.s *\n",Email);
+    printf("*   Firstname  : %-20s  *\n",customers[foundRow][0]);
+    printf("*   Lastname   : %-20s  *\n",customers[foundRow][1]);
+    printf("*   Telephone  : %-20s  *\n",customers[foundRow][2]);
+    printf("*   Email User : %-20s *\n",customers[foundRow][3]);
     countDay(startCol,1);
     countDay(endCol,0);
     printf("****************************************\n");
@@ -573,88 +576,11 @@ void Deletecustomer(char *filename, char *fname, char *lname)
 
     // บันทึกไฟล์
     saveCSV("CUSTOMER.csv", customers, custRows);
-    printf("\nCancel booking + delete success!\n");
+    printf("****************************************\n");
+    printf("*   Cancel booking & delete success!   * \n");
+    printf("****************************************\n");
     return 0;
-    /*FILE *fp = fopen(filename, "r");
-    FILE *test = fopen("test.csv", "w");
-
-    if(fp == NULL)
-    {
-        printf("Cannot open source file\n");
-        return 0;
-    }
-
-    if(test == NULL)
-    {
-        printf("Cannot create test file\n");
-        fclose(fp);
-        return 0;
-    }
-
-    char line[1000];
-    int deleted = 0;
-
-    while(fgets(line, sizeof(line), fp))
-    {
-        // copy header
-        if(strncmp(line, "Name", 4) == 0)
-        {
-            fprintf(test, "%s", line);
-            continue;
-        }
-
-        char tempLine[1000];
-        strcpy(tempLine, line);
-
-        char *f = strtok(line, ",");
-        char *l = strtok(NULL, ",");
-
-        if(f && l)
-        {
-            l[strcspn(l, "\n")] = 0;
-
-            if(strcmp(f, fname) == 0 && strcmp(l, lname) == 0)
-            {
-                deleted = 1;
-                continue;
-            }
-        }
-
-        fprintf(test, "%s", tempLine);
-    }
-
-
-    fclose(fp);
-    fclose(test);
-
-    // เปลี่ยนชื่อไฟล์เดิมเป็น backup
-    if(rename(filename, "backup.csv") != 0)
-    {
-        perror("Rename original file failed");
-        return;
-    }
-
-    // เอา temp มาแทน
-    if(rename("test.csv", filename) != 0)
-    {
-        perror("Rename temp file failed");
-        rename("backup.csv", filename);
-        return;
-    }
-
-    // ลบ backup
-    remove("backup.csv");
-    printf("Customer deleted successfully!\n");
-
-    fclose(fp);
-    fclose(test);
-
-    if(remove("CUSTOMER.csv") != 0) printf("Error deleting original file\n");
-    if(rename("test.csv", "CUSTOMER.csv") != 0) printf("Error renaming file\n");
-    if(deleted)  printf("Customer deleted successfully!\n");
-    else printf("Delete ERROR!!\n");*/
 }
-
 
 int isLeap(int year) 
 {
@@ -680,8 +606,8 @@ int countDay(int dayOfYear,int i)
     }
 
     // แสดงผล
-    if(i==0) printf("*   Day Start  :  %d  %d  %d           *\n", dayOfYear, month + 1, year);
-    else printf("*   Day End    :  %d  %d  %d           *\n", dayOfYear, month + 1, year);
+    if(i==0) printf("*   Day Start  : %d / %d / %d          *\n", dayOfYear, month + 1, year);
+    else printf("*   Day End    : %d / %d / %d          *\n", dayOfYear, month + 1, year);
     return 0;
 }
 
