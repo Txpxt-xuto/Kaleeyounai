@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#define MAX_ROW 1000
+#define MAX_COL 500
 
+char customers[MAX_ROW][MAX_COL][100];
+char cars[MAX_ROW][MAX_COL][100];
 
 void Menu();
 void Booking();
@@ -524,6 +528,12 @@ void Unbooking()
 void Deletecustomer(char *filename, char *fname, char *lname)
 {
     FILE *fp = fopen(filename, "r");
+    
+
+
+
+
+    /*FILE *fp = fopen(filename, "r");
     FILE *test = fopen("test.csv", "w");
 
     if(fp == NULL)
@@ -586,7 +596,6 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     if(rename("test.csv", filename) != 0)
     {
         perror("Rename temp file failed");
-        // rollback ถ้า error
         rename("backup.csv", filename);
         return;
     }
@@ -595,13 +604,62 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     remove("backup.csv");
     printf("Customer deleted successfully!\n");
 
-    /*fclose(fp);
+    fclose(fp);
     fclose(test);
 
     if(remove("CUSTOMER.csv") != 0) printf("Error deleting original file\n");
     if(rename("test.csv", "CUSTOMER.csv") != 0) printf("Error renaming file\n");
     if(deleted)  printf("Customer deleted successfully!\n");
     else printf("Delete ERROR!!\n");*/
+}
+
+int loadCSV(char *filename, char data[][MAX_COL][100], int *rows)
+{
+    FILE *fp = fopen(filename, "r");
+    if(fp == NULL)
+    {
+        printf("File error: %s\n", filename);
+        return 0;
+    }
+
+    char line[10000];
+    int row = 0;
+
+    while (fgets(line, sizeof(line), fp)) {
+        int col = 0;
+
+        char *token = strtok(line, ",");
+
+        while (token != NULL) {
+            token[strcspn(token, "\n")] = 0;
+            strcpy(data[row][col], token);
+
+            token = strtok(NULL, ",");
+            col++;
+        }
+        row++;
+    }
+
+    fclose(fp);
+    *rows = row;
+    return 1;
+}
+
+void saveCSV(char *filename, char data[][MAX_COL][100], int rows)
+{
+    FILE *fp = fopen(filename, "w");
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < MAX_COL; j++)
+        {
+            if (strlen(data[i][j]) == 0) break;
+            fprintf(fp, "%s", data[i][j]);
+            if (strlen(data[i][j+1]) > 0) fprintf(fp, ",");
+        }
+        fprintf(fp, "\n");
+    }
+
+    fclose(fp);
 }
 
 void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
