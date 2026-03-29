@@ -524,7 +524,7 @@ void Unbooking()
 void Deletecustomer(char *filename, char *fname, char *lname)
 {
     FILE *fp = fopen(filename, "r");
-    FILE *temp = fopen("temp.csv", "w");
+    FILE *test = fopen("test.csv", "w");
 
     if(fp == NULL)
     {
@@ -532,9 +532,9 @@ void Deletecustomer(char *filename, char *fname, char *lname)
         return 0;
     }
 
-    if(temp == NULL)
+    if(test == NULL)
     {
-        printf("Cannot create temp file\n");
+        printf("Cannot create test file\n");
         fclose(fp);
         return 0;
     }
@@ -547,7 +547,7 @@ void Deletecustomer(char *filename, char *fname, char *lname)
         // copy header
         if(strncmp(line, "Name", 4) == 0)
         {
-            fprintf(temp, "%s", line);
+            fprintf(test, "%s", line);
             continue;
         }
 
@@ -568,14 +568,14 @@ void Deletecustomer(char *filename, char *fname, char *lname)
             }
         }
 
-        fprintf(temp, "%s", tempLine);
+        fprintf(test, "%s", tempLine);
     }
 
     fclose(fp);
-    fclose(temp);
+    fclose(test);
 
     if(remove("CUSTOMER.csv") != 0) printf("Error deleting original file\n");
-    if(rename("temp.csv", "CUSTOMER.csv") != 0) printf("Error renaming file\n");
+    if(rename("test.csv", "CUSTOMER.csv") != 0) printf("Error renaming file\n");
     if(deleted)  printf("Customer deleted successfully!\n");
     else printf("Delete ERROR!!\n");
 }
