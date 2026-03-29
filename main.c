@@ -514,7 +514,7 @@ void Unbooking()
             {
                 int startCol = atoi(start), targetRow = atoi(price), endCol = atoi(end);
                 Deletecustomer("CUSTOMER.csv",searchF,searchL);
-                //setRangeZero("CAR.csv",targetRow,startCol,endCol);
+                setRangeZero("CAR.csv",targetRow,startCol,endCol);
                 found = 1;
                 break;
             }
