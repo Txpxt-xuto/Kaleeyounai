@@ -545,15 +545,28 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     }
 
     if(foundRow == -1) printf("Customer not found\n");
-    
 
     // ดึงข้อมูลการจอง
-    int carRow   = atoi(customers[foundRow][2]);
-    int startCol = atoi(customers[foundRow][3]);
-    int endCol   = atoi(customers[foundRow][4]);
+    char FName = customers[foundRow][0];
+    char Lname = customers[foundRow][1];
+    char Tel   = customers[foundRow][2];
+    int Email  = customers[foundRow][3];
+    int startCol = atoi(customers[foundRow][5]);
+    int endCol   = atoi(customers[foundRow][6]);
 
-    printf("\nBooking found:\n");
-    printf("Car Row: %d\nStart: %d\nEnd: %d\n", carRow, startCol, endCol);
+
+
+
+    printf("\n             Booking found             \n");
+    printf("*****************************************\n");
+    printf("*   Firstname  :  %s                   *\n",FName);
+    printf("*   Lastname   :  %s                   *\n",Lname);
+    printf("*   Telephone  :  %s                   *\n",Tel);
+    printf("*   Email User :  %s                   *\n",Email);
+    printf("*   Day Start  :  %d  %d  %d                 *\n");
+    printf("*   Day End    :  %d  %d  %d                 *\n");
+    printf("*****************************************\n");
+    printf("Car : %d\nStart: %d\nEnd: %d\n", carRow, startCol, endCol);
 
     // ลบลูกค้า
     deleteRow(customers, &custRows, foundRow);
