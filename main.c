@@ -30,6 +30,10 @@ void Deletecustomer(char *filename, char *fname, char *lname);
 int loadCSV(char *filename, char data[][MAX_COL][100], int *rows);
 void saveCSV(char *filename, char data[][MAX_COL][100], int rows);
 void deleteRow(char data[][MAX_COL][100], int *rows, int target);
+int isLeap(int year) ;
+int countDay(int dayOfYear,int i);
+
+
 
 
 void Menu()
@@ -554,19 +558,15 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     int startCol = atoi(customers[foundRow][5]);
     int endCol   = atoi(customers[foundRow][6]);
 
-
-
-
     printf("\n             Booking found             \n");
-    printf("*****************************************\n");
-    printf("*   Firstname  :  %s                   *\n",FName);
-    printf("*   Lastname   :  %s                   *\n",Lname);
-    printf("*   Telephone  :  %s                   *\n",Tel);
-    printf("*   Email User :  %s                   *\n",Email);
-    printf("*   Day Start  :  %d  %d  %d                 *\n");
-    printf("*   Day End    :  %d  %d  %d                 *\n");
-    printf("*****************************************\n");
-    printf("Car : %d\nStart: %d\nEnd: %d\n", carRow, startCol, endCol);
+    printf("****************************************\n");
+    printf("*   Firstname  :  %-20.s *\n",FName);
+    printf("*   Lastname   :  %-20.s *\n",Lname);
+    printf("*   Telephone  :  %-20.s *\n",Tel);
+    printf("*   Email User :  %-20.s *\n",Email);
+    countDay(startCol,1);
+    countDay(endCol,0);
+    printf("****************************************\n");
 
     // ลบลูกค้า
     deleteRow(customers, &custRows, foundRow);
@@ -653,6 +653,36 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     if(rename("test.csv", "CUSTOMER.csv") != 0) printf("Error renaming file\n");
     if(deleted)  printf("Customer deleted successfully!\n");
     else printf("Delete ERROR!!\n");*/
+}
+
+
+int isLeap(int year) 
+{
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
+int countDay(int dayOfYear,int i)
+{
+    int year=2026,month = 0;;
+
+
+    // จำนวนวันแต่ละเดือน
+    int daysInMonth[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
+    // ถ้า leap year -> ก.พ. = 29
+    if(isLeap(year)) daysInMonth[1] = 29;
+    
+    // หาเดือน
+    while(dayOfYear > daysInMonth[month])
+    {
+        dayOfYear -= daysInMonth[month];
+        month++;
+    }
+
+    // แสดงผล
+    if(i==0) printf("*   Day Start  :  %d  %d  %d           *\n", dayOfYear, month + 1, year);
+    else printf("*   Day End    :  %d  %d  %d           *\n", dayOfYear, month + 1, year);
+    return 0;
 }
 
 int loadCSV(char *filename, char data[][MAX_COL][100], int *rows)
