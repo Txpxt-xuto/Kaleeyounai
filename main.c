@@ -571,13 +571,37 @@ void Deletecustomer(char *filename, char *fname, char *lname)
         fprintf(test, "%s", tempLine);
     }
 
+
     fclose(fp);
+    fclose(test);
+
+    // เปลี่ยนชื่อไฟล์เดิมเป็น backup
+    if(rename(filename, "backup.csv") != 0)
+    {
+        perror("Rename original file failed");
+        return;
+    }
+
+    // เอา temp มาแทน
+    if(rename("test.csv", filename) != 0)
+    {
+        perror("Rename temp file failed");
+        // rollback ถ้า error
+        rename("backup.csv", filename);
+        return;
+    }
+
+    // ลบ backup
+    remove("backup.csv");
+    printf("Customer deleted successfully!\n");
+
+    /*fclose(fp);
     fclose(test);
 
     if(remove("CUSTOMER.csv") != 0) printf("Error deleting original file\n");
     if(rename("test.csv", "CUSTOMER.csv") != 0) printf("Error renaming file\n");
     if(deleted)  printf("Customer deleted successfully!\n");
-    else printf("Delete ERROR!!\n");
+    else printf("Delete ERROR!!\n");*/
 }
 
 void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
