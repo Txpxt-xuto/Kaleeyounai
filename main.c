@@ -436,7 +436,7 @@ void Checkavailable_every_car(char *filename, int start, int end)
     }
 
     if(index == 1) printf("No available cars\n");
-    
+
     else
     {
         printf("Please choose car : ");
@@ -574,6 +574,7 @@ void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
 {
     FILE *fp = fopen(filename, "r");
     FILE *temp = fopen("temp.csv", "w");
+    
     if(fp == NULL || temp == NULL)
     {
         printf("File error\n");
