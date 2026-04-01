@@ -223,7 +223,7 @@ void SaveCustomer(int Id,int start,int end)
 
     printf("Email: ");
     scanf("%s", email);
-    
+
     if(Id==1) Id=Id+989 ;
     else if(Id==2) Id=Id+898 ;
     else if(Id==3) Id=Id+847 ;
@@ -254,8 +254,10 @@ int checkRangeZero(char *filename, int targetRow, int startCol, int endCol)
         printf("File error\n");
         return -1;
     }
+
     char line[10000];
     int currentRow = 0;
+
     while(fgets(line, sizeof(line), fp))
     {
         currentRow++;
@@ -264,6 +266,7 @@ int checkRangeZero(char *filename, int targetRow, int startCol, int endCol)
         {
             int col = 1;
             char *token = strtok(line, ",");
+            
             while (token != NULL)
             {
                 if (col >= startCol && col <= endCol)
