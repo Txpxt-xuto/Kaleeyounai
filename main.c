@@ -197,7 +197,7 @@ int Getvalueint(char *filename, int targetRow, int targetCol)
         }
     }
     fclose(fp);
-    return -1; // ไม่พบ
+    return -1;
 }
 
 void SaveCustomer(int Id,int start,int end)
@@ -208,6 +208,7 @@ void SaveCustomer(int Id,int start,int end)
         printf("File error\n");
         return;
     }
+
     char fname[50], lname[50], phone[20], email[100], code4digit[5], time[5];
     int dd, yy, mm, hour, min;
 
@@ -222,6 +223,7 @@ void SaveCustomer(int Id,int start,int end)
 
     printf("Email: ");
     scanf("%s", email);
+    
     if(Id==1) Id=Id+989 ;
     else if(Id==2) Id=Id+898 ;
     else if(Id==3) Id=Id+847 ;
