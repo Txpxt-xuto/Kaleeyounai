@@ -524,6 +524,7 @@ void Deletecustomer(char *filename, char *fname, char *lname)
 {
     FILE *fp = fopen(filename, "r");
     FILE *temp = fopen("temp.csv", "w");
+    
     if(fp == NULL || temp == NULL)
     {
         printf("File error\n");
@@ -566,6 +567,7 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     fclose(temp);
     remove(filename);
     rename("temp.csv", filename);
+
     if (deleted) printf("Customer deleted successfully!\n");
     else printf("Delete ERROR!!\n");
 }
@@ -574,7 +576,7 @@ void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
 {
     FILE *fp = fopen(filename, "r");
     FILE *temp = fopen("temp.csv", "w");
-    
+
     if(fp == NULL || temp == NULL)
     {
         printf("File error\n");
@@ -594,6 +596,7 @@ void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
         {
             int col = 1;
             char *token = strtok(line, ",");
+
             while(token != NULL)
             {
                 if(col >= startCol && col <= endCol) fprintf(temp, "0");
