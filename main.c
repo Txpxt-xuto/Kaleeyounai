@@ -95,6 +95,7 @@ void Booking()
 int ChooseCar()
 {
     int Car;
+
     printf("*****************************************\n");
     printf("*        [1]  Toyota Altis Gray         *\n");
     printf("*        [2]  Toyota Vios Black         *\n");
@@ -105,6 +106,7 @@ int ChooseCar()
     printf("*        [7]  Suzuki Celerio White      *\n");
     printf("*****************************************\n");
     printf("Please choose car : ");
+    
     scanf("%d",&Car);
     return Car;
 }
@@ -112,6 +114,7 @@ int ChooseCar()
 void Input_dmy_user(int Id_of_car)
 {
     int DayS,MonthS,YearS,DayE,MonthE,YearE;
+
     printf("Start date (dd mm yyyy): ");
     scanf("%d %d %d",&DayS,&MonthS,&YearS);
     printf("End  date  (dd mm yyyy): ");
