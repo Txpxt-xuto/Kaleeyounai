@@ -266,7 +266,7 @@ int checkRangeZero(char *filename, int targetRow, int startCol, int endCol)
         {
             int col = 1;
             char *token = strtok(line, ",");
-            
+
             while (token != NULL)
             {
                 if (col >= startCol && col <= endCol)
@@ -292,13 +292,16 @@ void setRangeOne(char *filename, int targetRow, int startCol, int endCol)
 {
     FILE *fp = fopen(filename, "r");
     FILE *temp = fopen("temp.csv", "w");
+
     if(fp == NULL || temp == NULL)
     {
         printf("File error\n");
         return;
     }
+
     char line[10000];
     int currentRow = 0;
+
     while(fgets(line, sizeof(line), fp))
     {
         currentRow++;
@@ -311,6 +314,7 @@ void setRangeOne(char *filename, int targetRow, int startCol, int endCol)
         {
             int col = 1;
             char *token = strtok(line, ",");
+            
             while(token != NULL)
             {
                 if(col >= startCol && col <= endCol) fprintf(temp, "1");
