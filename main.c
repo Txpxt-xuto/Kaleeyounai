@@ -459,10 +459,10 @@ void Checkavailable_every_car(char *filename, int start, int end)
 
 
 
-//การ save การจองรถ
+//การ save การจองรถ ปัญหา--> มันเซฟเป็นบ้างครั้งตอนจอง และไม่ save การยกเลิกจอง
 
 
-//การยกเลิกการจอง
+//เขียนการยกเลิกการจองให้ใช้ได้แบบเต็มระบบ
 void Unbooking()
 {
     FILE *fp = fopen("customers.csv", "r");
@@ -506,7 +506,7 @@ void Unbooking()
             if(strcmp(fname, searchF) == 0 && strcmp(lname, searchL) == 0)
             {
                 int startCol = atoi(start), targetRow = atoi(Id), endCol = atoi(end);
-                
+
                 Deletecustomer("customers.csv",searchF,searchL);
                 setRangeZero("cars.csv",targetRow,startCol,endCol);
                 found = 1;
