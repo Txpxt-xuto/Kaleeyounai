@@ -314,7 +314,7 @@ void setRangeOne(char *filename, int targetRow, int startCol, int endCol)
         {
             int col = 1;
             char *token = strtok(line, ",");
-            
+
             while(token != NULL)
             {
                 if(col >= startCol && col <= endCol) fprintf(temp, "1");
@@ -347,6 +347,7 @@ void setRangeOne(char *filename, int targetRow, int startCol, int endCol)
 
 void Readrule()
 {
+    //เขียนรายละเอียดเพิ่มเติม
     printf("กติกาการเช่ารถ\n");
     printf("1.ห้ามชน \n2.ห้ามบิด \n3.ห้าม 18+");
 }
@@ -365,8 +366,10 @@ void Search()
 void Input_dmy_user_every_car()
 {
     int DayS,MonthS,YearS,Car,DayE,MonthE,YearE,Ans;
+
     printf("Start date (dd mm yyyy): ");
     scanf("%d %d %d",&DayS,&MonthS,&YearS);
+
     printf("End  date  (dd mm yyyy): ");
     scanf("%d %d %d",&DayE,&MonthE,&YearE);
 
@@ -415,7 +418,7 @@ void Checkavailable_every_car(char *filename, int start, int end)
             col++;
         }
 
-        // ✅ ถ้าว่าง → แสดงพร้อมลำดับ
+        // ถ้าว่างให้แสดงพร้อมลำดับ
         if(isAvailable)
         {
             char *t = strtok(tempLine, ","); // col1
@@ -433,6 +436,7 @@ void Checkavailable_every_car(char *filename, int start, int end)
     }
 
     if(index == 1) printf("No available cars\n");
+    
     else
     {
         printf("Please choose car : ");
