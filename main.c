@@ -505,9 +505,8 @@ void Unbooking()
             lname[strcspn(lname, "\n")] = 0;
             if(strcmp(fname, searchF) == 0 && strcmp(lname, searchL) == 0)
             {
-                int startCol = atoi(start);
-                int targetRow = atoi(Id);
-                int endCol = atoi(end);
+                int startCol = atoi(start), targetRow = atoi(Id), endCol = atoi(end);
+                
                 Deletecustomer("customers.csv",searchF,searchL);
                 setRangeZero("cars.csv",targetRow,startCol,endCol);
                 found = 1;
@@ -524,7 +523,7 @@ void Deletecustomer(char *filename, char *fname, char *lname)
 {
     FILE *fp = fopen(filename, "r");
     FILE *temp = fopen("temp.csv", "w");
-    
+
     if(fp == NULL || temp == NULL)
     {
         printf("File error\n");
