@@ -70,6 +70,7 @@ int Count_days(int d, int m, int y)
 {
 
     int days = d;
+
     for(int i=1;i<m;i++) days += Days_in_month(i,y);
     for(int i=1;i<y/2026;i++)
     {
@@ -106,7 +107,7 @@ int ChooseCar()
     printf("*        [7]  Suzuki Celerio White      *\n");
     printf("*****************************************\n");
     printf("Please choose car : ");
-    
+
     scanf("%d",&Car);
     return Car;
 }
@@ -127,8 +128,8 @@ void Input_dmy_user(int Id_of_car)
 
 void Checkavailable(int Id,int start,int end)
 {
-    int ans;
-    int result = checkRangeZero("cars.csv", Id, start+2, end+2);
+    int ans,result = checkRangeZero("cars.csv", Id, start+2, end+2);
+
     if(result == 1)
     {
         Recall(Id,start,end);
@@ -155,6 +156,7 @@ void Recall(int Id,int start,int end)
 {
     int deltatime=end-start,Accident_insurance_money=3000;
     int value = Getvalueint("cars.csv", Id, 1);
+
     printf("Number of days : %10d Days\nPrice per day : %11d Bath\nTotal cost : %14d Bath\nCar insurance cost : %6d Bath\nNet total : %15d Bath\n",deltatime,value,(value*deltatime),Accident_insurance_money,(value*deltatime)+Accident_insurance_money);
     printf("Please fill in information to rent.\n");
 }
@@ -174,7 +176,7 @@ int Getvalueint(char *filename, int targetRow, int targetCol)
     while(fgets(line, sizeof(line), fp))
     {
         currentRow++;
-        // ข้าม header
+        // ข้ามหัวตาราง
         if(currentRow == 1) continue;
         if(currentRow == targetRow + 1)
         {
