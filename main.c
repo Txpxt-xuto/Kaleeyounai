@@ -128,13 +128,13 @@ void Input_dmy_user(int Id_of_car)
 
 void Checkavailable(int Id,int start,int end)
 {
-    int ans,result = checkRangeZero("cars.csv", Id, start+2, end+2);
+    int ans,result = checkRangeZero("CAR.csv", Id, start+2, end+2);
 
     if(result == 1)
     {
         Recall(Id,start,end);
         SaveCustomer(Id,start,end);
-        setRangeOne("cars.csv", Id, start+2, end+2);
+        setRangeOne("CAR.csv", Id, start+2, end+2);
     }
 
     else if(result == 0)
