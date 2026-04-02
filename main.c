@@ -375,7 +375,7 @@ void Input_dmy_user_every_car()
 
     int days1 = Count_days(DayS,MonthS,YearS);
     int days2 = Count_days(DayE,MonthE,YearE);
-    Checkavailable_every_car("cars.csv",days1+2,days2+2);
+    Checkavailable_every_car("CAR.csv",days1+2,days2+2);
 }
 
 void Checkavailable_every_car(char *filename, int start, int end)
@@ -452,7 +452,7 @@ void Checkavailable_every_car(char *filename, int start, int end)
         ans++;
         Recall(ans,start,end);
         SaveCustomer(ans,start,end);
-        setRangeOne("cars.csv", ans, start, end);
+        setRangeOne("CAR.csv", ans, start, end);
     }
     fclose(fp);
 }
@@ -465,7 +465,7 @@ void Checkavailable_every_car(char *filename, int start, int end)
 //เขียนการยกเลิกการจองให้ใช้ได้แบบเต็มระบบ
 void Unbooking()
 {
-    FILE *fp = fopen("customers.csv", "r");
+    FILE *fp = fopen("CUSTOMER.csv", "r");
 
     if(fp == NULL)
     {
@@ -507,8 +507,8 @@ void Unbooking()
             {
                 int startCol = atoi(start), targetRow = atoi(Id), endCol = atoi(end);
 
-                Deletecustomer("customers.csv",searchF,searchL);
-                setRangeZero("cars.csv",targetRow,startCol,endCol);
+                Deletecustomer("CUSTOMER.csv",searchF,searchL);
+                setRangeZero("CAR.csv",targetRow,startCol,endCol);
                 found = 1;
                 break;
             }
