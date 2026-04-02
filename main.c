@@ -123,18 +123,18 @@ void Input_dmy_user(int Id_of_car)
 
     int days1 = Count_days(DayS,MonthS,YearS);
     int days2 = Count_days(DayE,MonthE,YearE);
-    Checkavailable(Id_of_car,days1,days2);
+    Checkavailable(Id_of_car,days1+2,days2+2);
 }
 
 void Checkavailable(int Id,int start,int end)
 {
-    int ans,result = checkRangeZero("CAR.csv", Id, start+2, end+2);
+    int ans,result = checkRangeZero("CAR.csv", Id, start, end);
 
     if(result == 1)
     {
         Recall(Id,start,end);
         SaveCustomer(Id,start,end);
-        setRangeOne("CAR.csv", Id, start+2, end+2);
+        setRangeOne("CAR.csv", Id, start, end);
     }
 
     else if(result == 0)
