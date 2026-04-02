@@ -434,8 +434,10 @@ void Checkavailable_every_car(char *filename, int start, int end)
         }
         else getId[currentRow]=0;
     }
-
+    for(int i=1;i<=7;i++) printf("%d{ %d }  ",i, getId[i] );
     if(index == 1) printf("No available cars\n");
+
+
 
     else
     {
@@ -443,13 +445,12 @@ void Checkavailable_every_car(char *filename, int start, int end)
         scanf("%d",&ans);
         for(int i=1;i<=7;i++)
         {
-            if(ans==getId[i]) 
+            if(ans==getId[i])
             {
-                ans=i-1;
+                ans=i;
                 i==8;
             }
         }
-        ans++;
         Recall(ans,start,end);
         SaveCustomer(ans,start,end);
         setRangeOne("CAR.csv", ans, start, end);
@@ -522,7 +523,7 @@ void Unbooking()
 void Deletecustomer(char *filename, char *fname, char *lname)
 {
     FILE *fp = fopen(filename, "r");
-    FILE *temp = fopen("temp.csv", "w");
+    FILE *temp = fopen("Temp.csv", "w");
 
     if(fp == NULL || temp == NULL)
     {
