@@ -155,7 +155,7 @@ void Checkavailable(int Id,int start,int end)
 void Recall(int Id,int start,int end)
 {
     int deltatime=end-start,Accident_insurance_money=3000;
-    int value = Getvalueint("cars.csv", Id, 1);
+    int value = Getvalueint("CAR.csv", Id, 1);
 
     printf("Number of days : %10d Days\nPrice per day : %11d Bath\nTotal cost : %14d Bath\nCar insurance cost : %6d Bath\nNet total : %15d Bath\n",deltatime,value,(value*deltatime),Accident_insurance_money,(value*deltatime)+Accident_insurance_money);
     printf("Please fill in information to rent.\n");
@@ -202,7 +202,7 @@ int Getvalueint(char *filename, int targetRow, int targetCol)
 
 void SaveCustomer(int Id,int start,int end)
 {
-    FILE *fp = fopen("customers.csv", "a"); // a = append เพิ่มข้อมูล
+    FILE *fp = fopen("CUSTOMER.csv", "a"); // a = append เพิ่มข้อมูล
     if(fp == NULL)
     {
         printf("File error\n");
