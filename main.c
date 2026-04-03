@@ -507,7 +507,6 @@ void Unbooking()
             if(strcmp(fname, searchF) == 0 && strcmp(lname, searchL) == 0)
             {
                 int startCol = atoi(start), targetRow = atoi(price), endCol = atoi(end);
-                printf("%d %d %d   ",targetRow,startCol,endCol);
                 Deletecustomer("CUSTOMER.csv",searchF,searchL);
                 setRangeZero("CAR.csv",targetRow,startCol,endCol);
                 found = 1;
@@ -561,11 +560,12 @@ void Deletecustomer(char *filename, char *fname, char *lname)
         }
         // แถวอื่นเขียนตามปกติ
         fprintf(temp, "%s", tempLine);
+        printf(" %s \n",tempLine);
     }
 
     fclose(fp);
     fclose(temp);
-    remove(filename);
+    remove("CUSTOMER.csv");
     rename("Temp.csv", filename);
 
     if (deleted) printf("Customer deleted successfully!\n");
