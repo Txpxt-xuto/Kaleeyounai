@@ -565,7 +565,7 @@ void Deletecustomer(char *filename, char *fname, char *lname)
 
     fclose(fp);
     fclose(temp);
-    remove("CUSTOMER.csv");
+    remove(filename);
     rename("Temp.csv", filename);
 
     if (deleted) printf("Customer deleted successfully!\n");
