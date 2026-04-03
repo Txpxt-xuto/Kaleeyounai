@@ -560,7 +560,6 @@ void Deletecustomer(char *filename, char *fname, char *lname)
         }
         // แถวอื่นเขียนตามปกติ
         fprintf(temp, "%s", tempLine);
-        printf(" %s \n",tempLine);
     }
 
     fclose(fp);
@@ -577,11 +576,19 @@ void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
     FILE *fp = fopen(filename, "r");
     FILE *temp = fopen("temp.csv", "w");
 
+
     if(fp == NULL || temp == NULL)
     {
         printf("File error\n");
         return;
     }
+    if(targetRow==990) targetRow=1 ;
+    else if(targetRow==900) targetRow=2 ;
+    else if(targetRow==850) targetRow=3 ;
+    else if(targetRow==2500) targetRow=4 ;
+    else if(targetRow==950) targetRow=5 ;
+    else if(targetRow==1000) targetRow=6 ;
+    else if(targetRow==800) targetRow=7 ;
     char line[10000];
     int currentRow = 0;
     while(fgets(line, sizeof(line), fp))
@@ -611,7 +618,10 @@ void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
             }
             fprintf(temp, "\n");
         }
-        else fprintf(temp, "%s", line); // แถวอื่น copy โง่ๆ
+        else 
+        {
+            fprintf(temp, "%s", line);
+        } // แถวอื่น copy โง่ๆ
     }
     fclose(fp);
     fclose(temp); // แทนไฟล์เดิม
