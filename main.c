@@ -241,7 +241,7 @@ void SaveCustomer(int Id,int start,int end)
     scanf("%s",time);
 
     // เขียนลง CSV ใน excel ลงในไฟล์ชื่อ customers.csv
-    fprintf(fp, "%s,%s,%s,%s,%d,%d,%d,%s,%d,%d,%d,%s\n", fname, lname, phone, email, Id, start, end, code4digit, dd, mm, yy, time);
+    fprintf(fp, "%s,%s,%s,%s,%d,%d,%d,%s,%d,%d,%d,%s\n", fname, lname, phone, email, Id, start-2, end-2, code4digit, dd, mm, yy, time);
     fclose(fp); //ปิดไฟล์
     printf("Customer saved!\n");
 }
@@ -434,10 +434,10 @@ void Checkavailable_every_car(char *filename, int start, int end)
         }
         else getId[currentRow]=0;
     }
+    fclose(fp);
+
     for(int i=1;i<=7;i++) printf("%d{ %d }  ",i, getId[i] );
     if(index == 1) printf("No available cars\n");
-
-
 
     else
     {
@@ -448,20 +448,19 @@ void Checkavailable_every_car(char *filename, int start, int end)
             if(ans==getId[i])
             {
                 ans=i;
-                i==8;
+                i=8;
             }
         }
         Recall(ans,start,end);
         SaveCustomer(ans,start,end);
         setRangeOne("CAR.csv", ans, start, end);
     }
-    fclose(fp);
 }
 
 
 
-//การ save การจองรถ ปัญหา--> มันเซฟเป็นบ้างครั้งตอนจอง และไม่ save การยกเลิกจอง
-
+//การ save การจองรถ ปัญหา-->  ไม่ save การยกเลิกจองของลูกค้า
+//setRangeZero เคลียร์ปัญหาแล้ว
 
 //เขียนการยกเลิกการจองให้ใช้ได้แบบเต็มระบบ
 void Unbooking()
@@ -606,7 +605,7 @@ void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
 
             while(token != NULL)
             {
-                if(col >= startCol && col <= endCol) fprintf(temp, "0");
+                if(col >= startCol+2 && col <= endCol+2) fprintf(temp, "0");
                 else
                 {
                     token[strcspn(token, "\n")] = 0;
