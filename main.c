@@ -507,7 +507,7 @@ void Unbooking()
             if(strcmp(fname, searchF) == 0 && strcmp(lname, searchL) == 0)
             {
                 int startCol = atoi(start), targetRow = atoi(price), endCol = atoi(end);
-
+                printf("%d %d %d   ",targetRow,startCol,endCol);
                 Deletecustomer("CUSTOMER.csv",searchF,searchL);
                 setRangeZero("CAR.csv",targetRow,startCol,endCol);
                 found = 1;
