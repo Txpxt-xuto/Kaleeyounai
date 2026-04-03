@@ -496,7 +496,7 @@ void Unbooking()
         char *lname = strtok(NULL, ",");
         char *phone = strtok(NULL, ",");
         char *email = strtok(NULL, ",");
-        char *Id = strtok(NULL, ",");
+        char *price = strtok(NULL, ",");
         char *start = strtok(NULL, ",");
         char *end = strtok(NULL, ",");
 
@@ -506,7 +506,7 @@ void Unbooking()
             lname[strcspn(lname, "\n")] = 0;
             if(strcmp(fname, searchF) == 0 && strcmp(lname, searchL) == 0)
             {
-                int startCol = atoi(start), targetRow = atoi(Id), endCol = atoi(end);
+                int startCol = atoi(start), targetRow = atoi(price), endCol = atoi(end);
 
                 Deletecustomer("CUSTOMER.csv",searchF,searchL);
                 setRangeZero("CAR.csv",targetRow,startCol,endCol);
@@ -566,7 +566,7 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     fclose(fp);
     fclose(temp);
     remove(filename);
-    rename("temp.csv", filename);
+    rename("Temp.csv", filename);
 
     if (deleted) printf("Customer deleted successfully!\n");
     else printf("Delete ERROR!!\n");
