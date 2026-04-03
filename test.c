@@ -3,6 +3,27 @@
 #include <stdlib.h>
 
 
+void Menu();
+void Booking();
+void Readrule();
+void Unbooking();
+void Search();
+void Canclerent();
+int Count_days(int d, int m, int y);
+int Days_in_month(int m, int y);
+int Check_leap_year (int y);
+int ChooseCar();
+void Input_dmy_user(int Id_of_car);
+void Checkavailable(int Id,int start,int end);
+void SaveCustomer(int Id,int start,int end);
+int checkRangeZero(char *filename, int targetRow, int startCol, int endCol);
+void setRangeOne(char *filename, int targetRow, int startCol, int endCol);
+void setRangeZero(char *filename, int targetRow, int startCol, int endCol);
+void Input_dmy_user_every_car();
+void Checkavailable_every_car(char *filename, int start, int end);
+void Recall(int Id,int start,int end);
+int Getvalueint(char *filename, int targetRow, int targetCol);
+void Deletecustomer(char *filename, char *fname, char *lname);
 
 void Menu()
 {
@@ -13,6 +34,9 @@ void Menu()
         printf("*****************************************\n");
         printf("*   [1]  Booking                        *\n");
         printf("*   [2]  Unbooking                      *\n");
+        printf("*   [3]  Check for available vehicles   *\n");
+        printf("*   [4]  Read the rules                 *\n");
+        printf("*   [5]  Quit                           *\n");
         printf("*****************************************\n");
         printf("Please choose menu : ");
         scanf("%d",&i);
@@ -24,6 +48,25 @@ void Menu()
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//การ save การจองรถ ปัญหา--> มันเซฟเป็นบ้างครั้งตอนจอง และไม่ save การยกเลิกจอง
+
+
+//เขียนการยกเลิกการจองให้ใช้ได้แบบเต็มระบบ
 void Unbooking()
 {
     FILE *fp = fopen("CUSTOMER.csv", "r");
