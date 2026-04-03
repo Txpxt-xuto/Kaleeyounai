@@ -571,7 +571,7 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     else printf("Delete ERROR!!\n");
 }
 
-void setRangeZero(char *filename, int targetRow, int startCol, int endCol)
+void setRangeZero(char *filename, int targetRow, int startCol+2, int endCol+2)
 {
     FILE *fp = fopen(filename, "r");
     FILE *temp = fopen("temp.csv", "w");
