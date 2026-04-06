@@ -14,7 +14,7 @@ void Search();
 void Canclerent();
 int Count_days(int d, int m, int y);
 int Days_in_month(int m, int y);
-int Check_leap_year (int y);
+int Check_leap_year(int y);
 int ChooseCar();
 void Input_dmy_user(int Id_of_car);
 void Checkavailable(int Id,int start,int end);
@@ -57,7 +57,7 @@ void Menu()
         else if(i==2) Unbooking();
         else if(i==3) Search();
         else if(i==4) Readrule();
-    }while (i!=5);
+    }while(i!=5);
 }
 
 
@@ -168,7 +168,7 @@ void Recall(int Id,int start,int end)
 {
     int deltatime=end-start,Accident_insurance_money=3000;
     int value = Getvalueint("CAR.csv", Id, 1);
-    if(deltatime=0) deltatime=1;
+    if(deltatime==0) deltatime=1;
 
     printf("Number of days : %10d Days\nPrice per day : %11d Bath\nTotal cost : %14d Bath\nCar insurance cost : %6d Bath\nNet total : %15d Bath\n",deltatime,value,(value*deltatime),Accident_insurance_money,(value*deltatime)+Accident_insurance_money);
     printf("Please fill in information to rent.\n");
@@ -542,7 +542,7 @@ void Deletecustomer(char *filename, char *fname, char *lname)
 
     // ค้นหาลูกค้า
     for(int i = 1; i < custRows; i++)
-    { 
+    {
         // ข้าม header
         if(strcmp(customers[i][0], fname) == 0 && strcmp(customers[i][1], lname) == 0)
         {
@@ -581,7 +581,7 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     printf("****************************************\n");
 }
 
-int isLeap(int year) 
+int isLeap(int year)
 {
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
@@ -596,7 +596,7 @@ int countDay(int dayOfYear,int i)
 
     // ถ้า leap year -> ก.พ. = 29
     if(isLeap(year)) daysInMonth[1] = 29;
-    
+
     // หาเดือน
     while(dayOfYear > daysInMonth[month])
     {
