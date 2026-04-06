@@ -554,10 +554,10 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     if(foundRow == -1) printf("Customer not found\n");
 
     // ดึงข้อมูลการจอง
-    char FName = customers[foundRow][0];
-    char Lname = customers[foundRow][1];
-    char Tel   = customers[foundRow][2];
-    char Email = customers[foundRow][3];
+    char *FName = customers[foundRow][0];
+    char *Lname = customers[foundRow][1];
+    char *Tel   = customers[foundRow][2];
+    char *Email = customers[foundRow][3];
     int startCol = atoi(customers[foundRow][5]);
     int endCol   = atoi(customers[foundRow][6]);
 
@@ -579,7 +579,6 @@ void Deletecustomer(char *filename, char *fname, char *lname)
     printf("****************************************\n");
     printf("*   Cancel booking & delete success!   * \n");
     printf("****************************************\n");
-    return 0;
 }
 
 int isLeap(int year) 
