@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\TDM-GCC-64\\include"
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "_DEBUG",
