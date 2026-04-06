@@ -109,7 +109,7 @@ void Booking()
 int ChooseCar()
 {
     int Car;
-
+    printf("kuy");
     printf("*****************************************\n");
     printf("*        [1]  Toyota Altis Gray         *\n");
     printf("*        [2]  Toyota Vios White         *\n");
