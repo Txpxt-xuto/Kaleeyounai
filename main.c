@@ -112,8 +112,8 @@ int ChooseCar()
 
     printf("*****************************************\n");
     printf("*        [1]  Toyota Altis Gray         *\n");
-    printf("*        [2]  Toyota Vios Black         *\n");
-    printf("*        [3]  Toyota Vios White         *\n");
+    printf("*        [2]  Toyota Vios White         *\n");
+    printf("*        [3]  Toyota Vios Black         *\n");
     printf("*        [4]  Toyota Innova White       *\n");
     printf("*        [5]  Izusu Dmax Gold           *\n");
     printf("*        [6]  Honda Accord Black        *\n");
@@ -169,6 +169,7 @@ void Recall(int Id,int start,int end)
 {
     int deltatime=end-start,Accident_insurance_money=3000;
     int value = Getvalueint("CAR.csv", Id, 1);
+    if(deltatime=0) deltatime=1;
 
     printf("Number of days : %10d Days\nPrice per day : %11d Bath\nTotal cost : %14d Bath\nCar insurance cost : %6d Bath\nNet total : %15d Bath\n",deltatime,value,(value*deltatime),Accident_insurance_money,(value*deltatime)+Accident_insurance_money);
     printf("Please fill in information to rent.\n");
