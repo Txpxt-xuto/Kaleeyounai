@@ -126,16 +126,33 @@ int ChooseCar()
 
 void Input_dmy_user(int Id_of_car)
 {
-    int DayS,MonthS,YearS,DayE,MonthE,YearE;
+    int DayS, MonthS, YearS, DayE, MonthE, YearE;
+    int days1, days2;
 
-    printf("Start date (dd mm yyyy): ");
-    scanf("%d %d %d",&DayS,&MonthS,&YearS);
-    printf("End  date  (dd mm yyyy): ");
-    scanf("%d %d %d",&DayE,&MonthE,&YearE);
+    while (1)
+    {
+        printf("Start date (dd mm yyyy): ");
+        scanf("%d %d %d", &DayS, &MonthS, &YearS);
+        if (MonthS >= 1 && MonthS <= 12 && DayS >= 1 && DayS <= Days_in_month(MonthS, YearS)) break;
+        printf("\033[1;31mInvalid date! Please enter a valid date.\033[0m\n");
+    }
 
-    int days1 = Count_days(DayS,MonthS,YearS);
-    int days2 = Count_days(DayE,MonthE,YearE);
-    Checkavailable(Id_of_car,days1+2,days2+2);
+    while (1)
+    {
+        printf("End  date  (dd mm yyyy): ");
+        scanf("%d %d %d", &DayE, &MonthE, &YearE);
+        if (MonthE >= 1 && MonthE <= 12 && DayE >= 1 && DayE <= Days_in_month(MonthE, YearE)) 
+        {
+            days1 = Count_days(DayS, MonthS, YearS);
+            days2 = Count_days(DayE, MonthE, YearE);
+            if (days2 > days1) break;
+            else printf("\033[1;31mError: End date must be AFTER Start date!\033[0m\n");
+        } 
+        elseprintf("\033[1;31mInvalid date! Please enter a valid date.\033[0m\n");
+    }
+
+
+    Checkavailable(Id_of_car, days1 + 2, days2 + 2);
 }
 
 void Checkavailable(int Id,int start,int end)
