@@ -232,52 +232,6 @@ int Getvalueint(char *filename, int targetRow, int targetCol)
 
 void SaveCustomer(int Id,int start,int end)
 {
-    FILE *fp = fopen("CUSTOMER.csv", "a"); // a = append เพิ่มข้อมูล
-    if(fp == NULL)
-    {
-        printf("File error\n");
-        return;
-    }
-
-    char fname[50], lname[50], phone[20], email[100], code4digit[5], time[5];
-    int dd, yy, mm, hour, min;
-
-    printf("First name: ");
-    scanf("%s", fname);
-
-    printf("Last name: ");
-    scanf("%s", lname);
-
-    printf("Phone: ");
-    scanf("%s", phone);
-
-    printf("Email: ");
-    scanf("%s", email);
-
-    if(Id==1) Id=Id+989 ;
-    else if(Id==2) Id=Id+898 ;
-    else if(Id==3) Id=Id+847 ;
-    else if(Id==4) Id=Id+2496 ;
-    else if(Id==5) Id=Id+945 ;
-    else if(Id==6) Id=Id+994 ;
-    else if(Id==7) Id=Id+793 ;
-
-    printf("Please transfer a deposit of 1000 baht to Government Savings Bank, account number 0202-9242-2407\n");
-    printf("Please enter the last 4 digits of the reference code: ");
-    scanf("%s",code4digit);
-    printf("Please enter the date of transferb (dd mm yy) : ");
-    scanf("%d %d %d", &dd, &mm, &yy);
-    printf("Please fill in the time of transfer (ex 07:12 --> ans 0712): ");
-    scanf("%s",time);
-
-    // เขียนลง CSV ใน excel ลงในไฟล์ชื่อ customers.csv
-    fprintf(fp, "%s,%s,%s,%s,%d,%d,%d,%s,%d,%d,%d,%s\n", fname, lname, phone, email, Id, start-2, end-2, code4digit, dd, mm, yy, time);
-    fclose(fp); //ปิดไฟล์
-    printf("Customer saved!\n");
-}
-
-void SaveCustomer(int Id,int start,int end)
-{
     FILE *fp = fopen("CUSTOMER.csv", "a");
     if(fp == NULL)
     {
@@ -315,7 +269,7 @@ void SaveCustomer(int Id,int start,int end)
             }
         }
 
-        if(!valid) printf("Sybau fill it again idiot\n");
+        if(!valid) printf("fill it again idiot\n");
     }while(!valid);
 
     do{
@@ -331,7 +285,7 @@ void SaveCustomer(int Id,int start,int end)
                 break;
             }
         }
-        if(!valid) printf("Na Hee you must fill @ \n");
+        if(!valid) printf("you must fill @ \n");
     }while(!valid);
 
     if(Id==1) Id=Id+989 ;
@@ -365,7 +319,7 @@ void SaveCustomer(int Id,int start,int end)
             }
         }
 
-        if(!valid) printf("Kuy this must be 4 digit\n");
+        if(!valid) printf("this must be 4 digit\n");
     }while(!valid);
 
     do{
