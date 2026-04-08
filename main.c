@@ -271,7 +271,36 @@ void SaveCustomer(int Id,int start,int end)
 
         if(!valid) printf("fill it again idiot\n");
     }while(!valid);
+    char domain;
+    char allowed_domains[4][20] = {"gmail.com", "outlook.com", "hotmail.com", "kmutt.ac.th"};
+    int num_allowed_domains = 4;
 
+    do {
+        valid = 0;
+        printf("Email: ");
+        scanf("%s", email);
+
+
+        charat_sign = strchr(email, '@');
+
+        if(at_sign != NULL)
+        {
+            domain = at_sign + 1;
+            for(i = 0; i < num_allowed_domains; i++)
+            {
+                if(strcmp(domain, allowed_domains[i]) == 0)
+                {
+                    valid = 1; 
+                    break;
+                }
+            }
+
+            if(!valid) printf("Invalid domain. Allowed domains are: gmail.com, outlook.com, hotmail.com, kmutt.ac.th\n");
+
+        }
+        else printf("You must include '@' in your email.\n");
+
+    } while (!valid);
     do{
         valid = 0;
         printf("Email: ");
