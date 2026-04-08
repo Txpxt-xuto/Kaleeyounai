@@ -344,7 +344,7 @@ void SaveCustomer(int Id,int start,int end)
 
     printf("Please transfer a deposit of 1000 baht to Government Savings Bank, account number 0202-9242-2407\n");
 
-    do {
+    do{
         valid = 1;
         printf("Please enter the last 4 digits of the reference code: ");
         scanf("%s",code4digit);
@@ -352,44 +352,39 @@ void SaveCustomer(int Id,int start,int end)
         int len = 0;
         while(code4digit[len] != '\0') len++;
 
-        if (len != 4) valid = 0;
-        else {
-            for (i = 0; i < 4; i++) {
-                if (code4digit[i] < '0' || code4digit[i] > '9') {
+        if(len != 4) valid = 0;
+        else
+        {
+            for(i = 0; i < 4; i++)
+            {
+                if(code4digit[i] < '0' || code4digit[i] > '9')
+                {
                     valid = 0;
                     break;
                 }
             }
         }
 
-        if (!valid) {
-            printf("Kuy this must be 4 digit\n");
-        }
-    } while (!valid);
+        if(!valid) printf("Kuy this must be 4 digit\n");
+    }while(!valid);
 
-    do {
+    do{
         valid = 0;
         printf("Please enter the date of transfer (dd mm yy) : ");
         scanf("%d %d %d", &dd, &mm, &yy);
 
-        if (yy >= 0 && mm >= 1 && mm <= 12 && dd >= 1) {
+        if (yy >= 0 && mm >= 1 && mm <= 12 && dd >= 1) 
+        {
             int days_in_month[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
             int year_check = yy;
 
-            if (yy > 2400) year_check -= 543;
-            if ((year_check % 4 == 0 && year_check % 100 != 0) || (year_check % 400 == 0)) {
-                days_in_month[2] = 29;
-            }
-
-            if (dd <= days_in_month[mm]) {
-                valid = 1;
-            }
+            if(yy > 2400) year_check -= 543;
+            if((year_check % 4 == 0 && year_check % 100 != 0) || (year_check % 400 == 0)) days_in_month[2] = 29;
+            if(dd <= days_in_month[mm]) valid = 1;
         }
 
-        if (!valid) {
-            printf("fill it again\n");
-        }
-    } while (!valid);
+        if(!valid) printf("fill it again\n");
+    }while(!valid);
 
     printf("Please fill in the time of transfer (ex 07:12 --> ans 0712): ");
     scanf("%s",time);
