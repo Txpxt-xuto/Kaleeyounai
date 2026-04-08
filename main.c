@@ -332,7 +332,7 @@ void SaveCustomer(int Id,int start,int end)
             }
         }
         if(!valid) printf("Na Hee you must fill @ \n");
-    } while (!valid);
+    }while(!valid);
 
     if(Id==1) Id=Id+989 ;
     else if(Id==2) Id=Id+898 ;
