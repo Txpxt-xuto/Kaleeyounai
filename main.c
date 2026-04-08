@@ -276,6 +276,129 @@ void SaveCustomer(int Id,int start,int end)
     printf("Customer saved!\n");
 }
 
+void SaveCustomer(int Id,int start,int end)
+{
+    FILE *fp = fopen("CUSTOMER.csv", "a");
+    if(fp == NULL)
+    {
+        printf("File error\n");
+        return;
+    }
+
+    char fname[50], lname[50], phone[20], email[100], code4digit[5], time[5];
+    int dd, yy, mm, hour, min;
+    int i, valid;
+
+    printf("First name: ");
+    scanf("%s", fname);
+
+    printf("Last name: ");
+    scanf("%s", lname);
+
+    do{
+        valid = 1;
+        printf("Phone: ");
+        scanf("%s", phone);
+
+        int len = 0;
+        while(phone[len] != '\0') len++;
+
+        if(len != 10) valid = 0;
+        else{
+            for(i = 0; i < 10; i++)
+            {
+                if(phone[i] < '0' || phone[i] > '9')
+                {
+                    valid = 0;
+                    break;
+                }
+            }
+        }
+
+        if(!valid) printf("Sybau fill it again idiot\n");
+    }while(!valid);
+
+    do{
+        valid = 0;
+        printf("Email: ");
+        scanf("%s", email);
+
+        for(i = 0; email[i] != '\0'; i++)
+        {
+            if(email[i] == '@')
+            {
+                valid = 1;
+                break;
+            }
+        }
+        if(!valid) printf("Na Hee you must fill @ \n");
+    } while (!valid);
+
+    if(Id==1) Id=Id+989 ;
+    else if(Id==2) Id=Id+898 ;
+    else if(Id==3) Id=Id+847 ;
+    else if(Id==4) Id=Id+2496 ;
+    else if(Id==5) Id=Id+945 ;
+    else if(Id==6) Id=Id+994 ;
+    else if(Id==7) Id=Id+793 ;
+
+    printf("Please transfer a deposit of 1000 baht to Government Savings Bank, account number 0202-9242-2407\n");
+
+    do {
+        valid = 1;
+        printf("Please enter the last 4 digits of the reference code: ");
+        scanf("%s",code4digit);
+
+        int len = 0;
+        while(code4digit[len] != '\0') len++;
+
+        if (len != 4) valid = 0;
+        else {
+            for (i = 0; i < 4; i++) {
+                if (code4digit[i] < '0' || code4digit[i] > '9') {
+                    valid = 0;
+                    break;
+                }
+            }
+        }
+
+        if (!valid) {
+            printf("Kuy this must be 4 digit\n");
+        }
+    } while (!valid);
+
+    do {
+        valid = 0;
+        printf("Please enter the date of transfer (dd mm yy) : ");
+        scanf("%d %d %d", &dd, &mm, &yy);
+
+        if (yy >= 0 && mm >= 1 && mm <= 12 && dd >= 1) {
+            int days_in_month[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            int year_check = yy;
+
+            if (yy > 2400) year_check -= 543;
+            if ((year_check % 4 == 0 && year_check % 100 != 0) || (year_check % 400 == 0)) {
+                days_in_month[2] = 29;
+            }
+
+            if (dd <= days_in_month[mm]) {
+                valid = 1;
+            }
+        }
+
+        if (!valid) {
+            printf("fill it again\n");
+        }
+    } while (!valid);
+
+    printf("Please fill in the time of transfer (ex 07:12 --> ans 0712): ");
+    scanf("%s",time);
+
+    fprintf(fp, "%s,%s,%s,%s,%d,%d,%d,%s,%d,%d,%d,%s\n", fname, lname, phone, email, Id, start-2, end-2, code4digit, dd, mm, yy, time);
+    fclose(fp);
+    printf("Customer saved!\n");
+}
+
 int checkRangeZero(char *filename, int targetRow, int startCol, int endCol)
 {
     FILE *fp = fopen(filename, "r");
