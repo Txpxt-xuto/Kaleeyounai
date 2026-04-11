@@ -146,7 +146,7 @@ void Input_dmy_user(int Id_of_car)
         {
             days1 = Count_days(DayS, MonthS, YearS);
             days2 = Count_days(DayE, MonthE, YearE);
-            if (days2 > days1) break;
+            if (days2 >= days1) break;
             else printf("\033[1;31mError: End date must be AFTER Start date!\033[0m\n");
         } 
         else printf("\033[1;31mInvalid date! Please enter a valid date.\033[0m\n");
@@ -294,7 +294,7 @@ void SaveCustomer(int Id,int start,int end,int total,int check)
         if(!valid) printf("fill it again idiot\n");
     }while(!valid);
     
-    char domain;
+    char *domain;
     char allowed_domains[4][20] = {"gmail.com", "outlook.com", "hotmail.com", "kmutt.ac.th"};
     int num_allowed_domains = 4;
 
@@ -302,7 +302,7 @@ void SaveCustomer(int Id,int start,int end,int total,int check)
         valid = 0;
         printf("Email: ");
         scanf("%s", email);
-        char at_sign = strchr(email, '@');
+        char *at_sign = strchr(email, '@');
         if(at_sign != NULL)
         {
             domain = at_sign + 1;
