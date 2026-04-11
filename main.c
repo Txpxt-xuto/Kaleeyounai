@@ -18,13 +18,13 @@ int Check_leap_year(int y);
 int ChooseCar();
 void Input_dmy_user(int Id_of_car);
 void Checkavailable(int Id,int start,int end);
-void SaveCustomer(int Id,int start,int end);
+void SaveCustomer(int Id,int start,int end,int total,int check);
 int checkRangeZero(char *filename, int targetRow, int startCol, int endCol);
 void setRangeOne(char *filename, int targetRow, int startCol, int endCol);
 void setRangeZero(char *filename, int targetRow, int startCol, int endCol);
 void Input_dmy_user_every_car();
 void Checkavailable_every_car(char *filename, int start, int end);
-void Recall(int Id,int start,int end);
+int Recall(int Id,int start,int end,int check);
 int Getvalueint(char *filename, int targetRow, int targetCol);
 void Deletecustomer(char *filename, char *fname, char *lname);
 int loadCSV(char *filename, char data[][MAX_COL][100], int *rows);
@@ -32,6 +32,7 @@ void saveCSV(char *filename, char data[][MAX_COL][100], int rows);
 void deleteRow(char data[][MAX_COL][100], int *rows, int target);
 int isLeap(int year) ;
 int countDay(int dayOfYear,int i);
+int Check_delivery();
 
 
 
@@ -148,7 +149,7 @@ void Input_dmy_user(int Id_of_car)
             if (days2 > days1) break;
             else printf("\033[1;31mError: End date must be AFTER Start date!\033[0m\n");
         } 
-        elseprintf("\033[1;31mInvalid date! Please enter a valid date.\033[0m\n");
+        else printf("\033[1;31mInvalid date! Please enter a valid date.\033[0m\n");
     }
 
 
@@ -161,8 +162,9 @@ void Checkavailable(int Id,int start,int end)
 
     if(result == 1)
     {
-        Recall(Id,start,end);
-        SaveCustomer(Id,start,end);
+        int check=Check_delivery();
+        int total=Recall(Id,start,end,check);
+        SaveCustomer(Id,start,end,total,check);
         setRangeOne("CAR.csv", Id, start, end);
     }
 
@@ -181,14 +183,34 @@ void Checkavailable(int Id,int start,int end)
     }
 }
 
-void Recall(int Id,int start,int end)
+int Check_delivery()
+{
+    int ans;
+    while(1){
+        printf("Would you like a pick-up/drop-off service?\n [1] Yes \t\t [2] No\n plase enter your answer: ");
+        scanf("%d",&ans);
+        if(ans==1 ) 
+        {
+            return 1000;
+            break;
+        }
+        else if(ans==0)
+        {   
+            return 0;
+            break;
+        } 
+    }
+}
+
+int Recall(int Id,int start,int end,int check)
 {
     int deltatime=end-start,Accident_insurance_money=3000;
     int value = Getvalueint("CAR.csv", Id, 1);
     if(deltatime==0) deltatime=1;
 
-    printf("Number of days : %10d Days\nPrice per day : %11d Bath\nTotal cost : %14d Bath\nCar insurance cost : %6d Bath\nNet total : %15d Bath\n",deltatime,value,(value*deltatime),Accident_insurance_money,(value*deltatime)+Accident_insurance_money);
+    printf("Number of days : %10d Days\nPrice per day : %11d Bath\nTotal cost : %14d Bath\nCar insurance cost : %6d Bath \n Delivery cost : %8d \nNet total : %15d Bath\n",deltatime,value,(value*deltatime),Accident_insurance_money,check,(value*deltatime)+Accident_insurance_money+check);
     printf("Please fill in information to rent.\n");
+    return (value*deltatime)+Accident_insurance_money+check;
 }
 
 int Getvalueint(char *filename, int targetRow, int targetCol)
@@ -230,7 +252,7 @@ int Getvalueint(char *filename, int targetRow, int targetCol)
     return -1;
 }
 
-void SaveCustomer(int Id,int start,int end)
+void SaveCustomer(int Id,int start,int end,int total,int check)
 {
     FILE *fp = fopen("CUSTOMER.csv", "a");
     if(fp == NULL)
@@ -352,7 +374,11 @@ void SaveCustomer(int Id,int start,int end)
     printf("Please fill in the time of transfer (ex 07:12 --> ans 0712): ");
     scanf("%s",time);
 
-    fprintf(fp, "%s,%s,%s,%s,%d,%d,%d,%s,%d,%d,%d,%s\n", fname, lname, phone, email, Id, start-2, end-2, code4digit, dd, mm, yy, time);
+    char status[10];
+    if(check==1000) status[10]="YES";
+    else if(check==0) status[10]="NO";
+
+    fprintf(fp, "%s,%s,%s,%s,%d,%d,%d,%s,%d,%d,%d,%s,%d,%s\n", fname, lname, phone, email, Id, start-2, end-2, code4digit, dd, mm, yy, time, total, status);
     fclose(fp);
     printf("Customer saved!\n");
 }
@@ -562,8 +588,9 @@ void Checkavailable_every_car(char *filename, int start, int end)
                 i=8;
             }
         }
-        Recall(ans,start,end);
-        SaveCustomer(ans,start,end);
+        int check=Check_delivery();
+        int total=Recall(ans,start,end,check);
+        SaveCustomer(ans,start,end,total,check);
         setRangeOne("CAR.csv", ans, start, end);
     }
 }
