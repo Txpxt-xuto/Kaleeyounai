@@ -208,7 +208,7 @@ int Recall(int Id,int start,int end,int check)
     int value = Getvalueint("CAR.csv", Id, 1);
     if(deltatime==0) deltatime=1;
 
-    printf("Number of days : %10d Days\nPrice per day : %11d Baht\nTotal cost : %14d Baht\nCar insurance cost : %6d Baht\nDelivery cost : %10d Baht\nNet total : %15d Baht\n",deltatime,value,(value*deltatime),Accident_insurance_money,check,(value*deltatime)+Accident_insurance_money+check);
+    printf("Number of days : %10d Days\nPrice per day : %11d Baht\nTotal cost : %14d Baht\nCar insurance cost : %6d Baht\nDelivery cost : %11d Baht\nNet total : %15d Baht\n",deltatime,value,(value*deltatime),Accident_insurance_money,check,(value*deltatime)+Accident_insurance_money+check);
     printf("Please fill in information to rent.\n");
     return (value*deltatime)+Accident_insurance_money+check;
 }
@@ -374,9 +374,9 @@ void SaveCustomer(int Id,int start,int end,int total,int check)
     printf("Please fill in the time of transfer (ex 07:12 --> ans 0712): ");
     scanf("%s",time);
 
-    char *status[10];
-    if(check==1000) status[10]="YES";
-    else if(check==0) status[10]="NO";
+    char status[10];
+    if(check == 1000) strcpy(status, "YES");
+    else if(check == 0) strcpy(status, "NO");
 
     fprintf(fp, "%s,%s,%s,%s,%d,%d,%d,%s,%d,%d,%d,%s,%d,%s\n", fname, lname, phone, email, Id, start-2, end-2, code4digit, dd, mm, yy, time, total, status);
     fclose(fp);
