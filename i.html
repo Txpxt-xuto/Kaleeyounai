@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Here Auto - Car for Rent</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        :root {
+            --dark-blue: #0A1F4C;
+            --light-blue: #9ABAFF;
+            --bg-color: #F7FAFF;
+            --white: #FFFFFF;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Mitr', sans-serif;
+            margin: 0; background-color: var(--bg-color); color: var(--dark-blue);
+            scroll-behavior: smooth;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: var(--dark-blue); padding: 10px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+        }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-area img { height: 40px; }
+        .logo-text { color: white; font-size: 14px; font-weight: bold; line-height: 1.2; }
+
+        .nav-links { display: flex; gap: 10px; }
+        .nav-links a { 
+            border: 1px solid white; color: white; padding: 8px 18px; 
+            border-radius: 20px; text-decoration: none; font-size: 14px; transition: 0.3s;
+        }
+        /* คลาส active สำหรับขึ้นสีขาวค้างไว้ */
+        .nav-links a.active { background: white; color: var(--dark-blue); }
+
+        /* --- Layout --- */
+        .main-content { margin-top: 110px; }
+        .content-section { padding: 60px 50px; text-align: center; max-width: 1200px; margin: 0 auto; }
+
+        /* --- Hero --- */
+        .main-title { font-size: 36px; margin-bottom: 5px; }
+        .sub-title-main { font-size: 22px; font-weight: 500; margin-bottom: 20px; }
+        .description-text { font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 40px; }
+
+        /* --- Highlights --- */
+        .info-highlights { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 50px; }
+        .highlight-card { background: var(--white); padding: 25px 15px; border-radius: 20px; flex: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .highlight-tag { background-color: var(--light-blue); color: white; padding: 5px 20px; border-radius: 12px; font-size: 20px; margin-bottom: 15px; display: inline-block; font-weight: 500; }
+
+        /* --- Experience Section --- */
+        .experience-header h2 { text-align: left; font-size: 32px; margin-bottom: 30px; }
+        .cta-container { display: flex; justify-content: space-between; align-items: center; background: white; padding: 40px; border-radius: 25px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 60px; }
+        .tag-blue { background: var(--light-blue); color: white; padding: 5px 15px; border-radius: 10px; margin-right: 15px; font-weight: bold; font-size: 16px; }
+        .feature-item { margin-bottom: 15px; font-size: 18px; display: flex; align-items: center; }
+        .btn-book-banner { background: var(--dark-blue); color: white; padding: 18px 40px; border-radius: 15px; text-decoration: none; font-size: 24px; font-weight: bold; display: inline-flex; align-items: center; gap: 15px; transition: 0.3s; }
+
+        /* --- Booking Section --- */
+        .booking-card { background-color: #9dbbff; border-radius: 25px; padding: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .booking-title { font-size: 35px; font-weight: 600; margin-bottom: 30px; }
+        .booking-form-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+        .input-row { background: white; border-radius: 15px; display: flex; align-items: center; padding: 12px 20px; height: 80px; }
+        .full-width { flex: 0 0 100%; }
+        .half-width { flex: 0 0 calc(50% - 6px); }
+        .icon-box { width: 45px; font-size: 28px; color: var(--dark-blue); display: flex; justify-content: center; margin-right: 12px; }
+        .input-details { text-align: left; flex: 1; }
+        .input-details label { font-size: 13px; color: #1a2e5a; font-weight: bold; }
+        .input-details input, .input-details select { width: 100%; border: none; outline: none; background: transparent; font-family: 'Mitr'; font-size: 16px; }
+        .btn-search-main { width: 100%; background-color: #44a03d; color: white; border: none; padding: 18px; border-radius: 15px; font-size: 20px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+
+        /* --- Footer Sections --- */
+        .about-footer-section {
+            display: flex; background-color: var(--white); width: 100%; max-width: 1200px;
+            margin: 40px auto; min-height: 450px; box-shadow: 0 15px 50px rgba(0,0,0,0.05);
+            overflow: hidden; border-radius: 30px; align-items: center;
+        }
+        .about-footer-text { flex: 1; padding: 50px; text-align: left; }
+        .about-footer-text h2 { font-size: 38px; color: var(--dark-blue); margin-bottom: 20px; }
+        .about-footer-img { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .about-footer-img img { max-width: 100%; height: auto; border-radius: 20px; }
+        .highlight-tag-small { background-color: var(--light-blue); color: white; padding: 10px 20px; border-radius: 12px; display: inline-block; font-weight: 500; margin-bottom: 15px; }
+
+        /* --- Contact Section --- */
+        .contact-container {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px;
+        }
+        .contact-item {
+            background: white; padding: 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+        }
+        .contact-item i { font-size: 35px; color: var(--light-blue); }
+        .contact-item p { font-size: 16px; font-weight: 500; margin: 0; }
+
+        /* --- Terms Section --- */
+        .terms-container { display: flex; justify-content: center; gap: 20px; margin-bottom: 80px; }
+        .term-item { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .term-icon {
+            background-color: var(--light-blue); width: 90px; height: 90px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; margin-bottom: 15px;
+            color: white; font-size: 35px;
+        }
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 90%; max-width: 500px; border-radius: 24px; overflow: hidden; }
+        #map { height: 350px; width: 100%; }
+
+        @media (max-width: 992px) {
+            .navbar { padding: 10px 20px; }
+            .nav-links { display: none; }
+            .about-footer-section { flex-direction: column; }
+            .half-width { flex: 0 0 100%; }
+            .terms-container, .contact-container { display: grid; grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo-area">
+        <img src="https://cdn.phototourl.com/free/2026-04-11-1458bde2-d2e6-4b1c-bca6-81ac8d382843.png" alt="Here Auto">
+        <div class="logo-text">Here Auto<br>CAR for RENT</div>
+    </div>
+    <div class="nav-links">
+        <a href="#section-home" class="nav-item">หน้าหลัก</a>
+        <a href="#section-booking" class="nav-item">จองรถ</a>
+        <a href="#section-about" class="nav-item">เกี่ยวกับเรา</a>
+        <a href="#section-terms" class="nav-item">เงื่อนไข</a>
+        <a href="#section-contact" class="nav-item">ติดต่อเรา</a>
+    </div>
+</nav>
+
+<div class="main-content">
+    
+    <section id="section-home" class="content-section">
+        <h2 class="main-title">เช่ารถกรุงเทพมหานคร</h2>
+        <p class="sub-title-main">ขับเอง รายวันรายเดือน กว่า 7 รุ่น ราคาเริ่มต้น 888.-</p>
+        <p class="description-text"><strong>HERE AUTO CAR FOR RENT.COM</strong> รถเช่ากรุงเทพมหานคร ขับเองง่าย ๆ สบายใจทุกเส้นทาง 💨</p>
+        <div class="info-highlights">
+            <div class="highlight-card"><div class="highlight-tag">จองง่าย</div><p>แจ้งวันที่และรุ่นรถที่ต้องการ</p></div>
+            <div class="highlight-card"><div class="highlight-tag">ตรวจเช็คทุกคัน</div><p>มั่นใจเรื่องความปลอดภัย ตรวจสภาพรถก่อนส่ง</p></div>
+            <div class="highlight-card"><div class="highlight-tag">บริการรับ-ส่ง</div><p>รับส่งรถถึงบ้านหรือสนามบินในกรุงเทพฯ</p></div>
+            <div class="highlight-card"><div class="highlight-tag">ราคาสบายเป๋า</div><p>ช่วยประหยัดเงินและเวลา เดินทางคล่องตัว</p></div>
+        </div>
+        <img src="https://cdn.phototourl.com/free/2026-04-11-2c2b1e80-e849-4132-922a-bef4eeef80eb.png" style="width:100%; max-width:800px;">
+    </section>
+
+    <section class="content-section" style="padding-top:0;">
+        <div class="experience-header">
+            <h2>Here Auto มากกว่าแค่การเช่ารถ<br>คือประสบการณ์การเดินทางที่สมบูรณ์แบบ</h2>
+        </div>
+        <div class="cta-container">
+            <div class="feature-box">
+                <div class="feature-item"><span class="tag-blue">ใหม่กว่า</span> รถทุกรุ่นสภาพป้ายแดง ตรวจเช็คทุกระยะ</div>
+                <div class="feature-item"><span class="tag-blue">ครบกว่า</span> มีให้เลือกทั้ง รถเก๋ง, กระบะ และรถ 12 ที่นั่ง</div>
+                <div class="feature-item"><span class="tag-blue">คุ้มกว่า</span> ดีลที่ดีที่สุดทั้งเช่ารายวันและเดือน</div>
+            </div>
+            <div class="cta-button-area">
+                <a href="#section-booking" class="btn-book-banner">จองรถ <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-booking" class="content-section">
+        <div class="booking-card">
+            <h2 class="booking-title">ค้นหารถว่างของคุณ</h2>
+            <div class="booking-form-grid">
+                <div class="input-row full-width" onclick="openMap()" style="cursor:pointer;">
+                    <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="input-details"><label>สถานที่รับ</label><input id="location-input" type="text" placeholder="คลิกเพื่อปักหมุดบนแผนที่" readonly></div>
+                </div>
+                <div class="input-row full-width">
+                    <div class="icon-box"><i class="fas fa-users"></i></div>
+                    <div class="input-details"><label>จำนวนที่นั่ง</label><select id="seat-filter"><option>4, 5 หรือ 12 ที่นั่ง</option></select></div>
+                </div>
+                <div class="input-row half-width"><div class="icon-box"><i class="fas fa-calendar-alt"></i></div><div class="input-details"><label>วันที่รับ</label><input id="pickup-date" type="text" placeholder="เลือกวันที่"></div></div>
+                <div class="input-row half-width"><div class="icon-box"><i class="fas fa-clock"></i></div><div class="input-details"><label>เวลารับ</label><input id="pickup-time" type="text" placeholder="เลือกเวลา"></div></div>
+                <div class="input-row half-width"><div class="icon-box"><i class="fas fa-calendar-check"></i></div><div class="input-details"><label>วันที่คืน</label><input id="return-date" type="text" placeholder="เลือกวันที่"></div></div>
+                <div class="input-row half-width"><div class="icon-box"><i class="fas fa-history"></i></div><div class="input-details"><label>เวลาคืน</label><input id="return-time" type="text" placeholder="เลือกเวลา"></div></div>
+                <button class="btn-search-main">ค้นหารถที่ว่าง</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="section-about" class="about-footer-section">
+        <div class="about-footer-text">
+            <h2>ความเป็นมา</h2>
+            <div class="highlight-tag-small">"เพราะเชื่อว่าการเดินทางที่ไม่สะดุด คือจุดเริ่มต้นของวันดี ๆ"</div>
+            <p>Here Auto เริ่มต้นจากความตั้งใจที่อยากจะแก้ปัญหาความยุ่งยากในการหารถเช่าในกรุงเทพฯ เราเข้าใจดีว่าหลายครั้งที่รถส่วนตัวเข้าศูนย์ หรือต้องการเดินทางเป็นกลุ่ม การหารถที่ "ไว้ใจได้" นั้นสำคัญแค่ไหน</p>
+        </div>
+        <div class="about-footer-img">
+            <img src="https://cdn.phototourl.com/free/2026-04-27-377308e3-4cf4-47c8-b0a7-497b05a881de.png" alt="About">
+        </div>
+    </div>
+
+    <div id="section-service" class="about-footer-section">
+        <div class="about-footer-text">
+            <h2>มาตรฐานการบริการ</h2>
+            <div class="highlight-tag-small">Safety First</div>
+            <p>รถทุกคันผ่านการตรวจเช็คสภาพเครื่องยนต์ ระบบเบรก และยาง อย่างละเอียด 20 รายการก่อนส่งมอบ</p>
+            <div class="highlight-tag-small">Double Clean</div>
+            <p>มั่นใจเรื่องสุขอนามัยด้วยการทำความสะอาดดูดฝุ่น และฆ่าเชื้อทุกครั้งหลังจบงาน</p>
+            <div class="highlight-tag-small">Ready to Go</div>
+            <p>น้ำมันเต็มถัง พร้อมอุปกรณ์ช่วยเหลือฉุกเฉิน ให้คุณออกสตาร์ทได้ทันที</p>
+        </div>
+        <div class="about-footer-img">
+            <img src="https://cdn.phototourl.com/free/2026-04-27-77016b08-4f89-41d0-bf2b-55d9e5c1fec6.png" alt="Service">
+        </div>
+    </div>
+
+    <section id="section-terms" class="content-section">
+        <h2 class="main-title">เงื่อนไขการเช่ารถ</h2>
+        <div class="terms-container">
+            <div class="term-item"><div class="term-icon"><i class="fas fa-id-card"></i></div><p><strong>บัตรประชาชน</strong><br>ตัวจริงไม่หมดอายุ</p></div>
+            <div class="term-item"><div class="term-icon"><i class="fas fa-address-card"></i></div><p><strong>ใบขับขี่</strong><br>ที่ยังไม่หมดอายุ</p></div>
+            <div class="term-item"><div class="term-icon"><i class="fas fa-hand-holding-usd"></i></div><p><strong>เงินประกัน</strong><br>เริ่มต้น 888.- ได้คืนหลังคืนรถ</p></div>
+            <div class="term-item"><div class="term-icon"><i class="fas fa-check-circle"></i></div><p><strong>ไม่ใช้บัตรเครดิต</strong><br>รับเงินสดหรือโอน</p></div>
+        </div>
+    </section>
+
+    <section id="section-contact" class="content-section">
+        <h2 class="main-title">ติดต่อเรา</h2>
+        <div class="contact-container">
+            <div class="contact-item">
+                <i class="fas fa-phone-alt"></i>
+                <p><strong>Tel</strong></p>
+                <p>086 999 8888</p>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <p><strong>Gmail</strong></p>
+                <p>hereautoandkalee888@gmail.com</p>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-line"></i>
+                <p><strong>Line</strong></p>
+                <p>hereautoandkalee888</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<div id="mapModal" class="modal-overlay">
+    <div class="modal-content">
+        <div id="map"></div>
+        <div style="padding: 20px; text-align: center;">
+            <button onclick="closeMap()" style="width: 100%; background: var(--dark-blue); color: white; padding: 15px; border: none; border-radius: 12px; cursor: pointer; font-family: 'Mitr'; font-weight: bold;">ยืนยันสถานที่</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    let map, marker, selectedAddress = "";
+    
+    // ระบบ Active Menu ค้างสีขาวเมื่อเลื่อนหน้าจอ
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const sections = document.querySelectorAll('section, .about-footer-section');
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 150) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        const navItems = document.querySelectorAll('.nav-links a');
+        navItems.forEach(a => {
+            a.classList.remove('active');
+            if (a.getAttribute('href') === `#${current}`) {
+                a.classList.add('active');
+            }
+        });
+    });
+
+    function initApp() {
+        const dCfg = { dateFormat: "D d F Y", minDate: "today" };
+        const tCfg = { enableTime: true, noCalendar: true, dateFormat: "H.i น.", time_24hr: true };
+        flatpickr("#pickup-date", dCfg); flatpickr("#return-date", dCfg);
+        flatpickr("#pickup-time", tCfg); flatpickr("#return-time", tCfg);
+    }
+
+    function openMap() {
+        document.getElementById('mapModal').style.display = 'flex';
+        if (!map) {
+            map = L.map('map').setView([13.7563, 100.5018], 11);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            map.on('click', function(e) {
+                if (marker) marker.setLatLng(e.latlng);
+                else marker = L.marker(e.latlng).addTo(map);
+                selectedAddress = "ระบุตำแหน่งแล้ว";
+            });
+        }
+        setTimeout(() => map.invalidateSize(), 400);
+    }
+
+    function closeMap() { 
+        if (selectedAddress) document.getElementById('location-input').value = selectedAddress;
+        document.getElementById('mapModal').style.display = 'none'; 
+    }
+    
+    window.onload = initApp;
+</script>
+</body>
+</html>
